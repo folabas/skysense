@@ -16,8 +16,9 @@ export const metadata: Metadata = {
   title: "SkySense | Advanced Weather Analytics",
   description: "Experience hyper-local weather data with predictive intelligence and global atmospheric mapping.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   }
 };
 
