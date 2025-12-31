@@ -20,6 +20,11 @@ const ONE_CALL_URL = 'https://api.openweathermap.org/data/3.0/onecall';
 console.log('SkySense Server initializing...');
 console.log('API Key configured:', OWM_API_KEY ? `${OWM_API_KEY.substring(0, 5)}...` : 'MISSING');
 
+// Health Check / Root Route
+app.get('/', (req, res) => {
+    res.json({ message: 'SkySense API is operational', status: 'live' });
+});
+
 // Helper to get coordinates from city name
 async function getCoords(city) {
     const res = await axios.get(GEO_URL, {
