@@ -43,7 +43,7 @@ export default function WeatherMap({ lat, lon, city, temp, layer = 'temp_new', i
     const center: [number, number] = [lat, lon];
 
     return (
-        <div className="w-full h-[600px] rounded-[2.5rem] overflow-hidden border border-border mt-8 relative z-0">
+        <div className="w-full h-[400px] md:h-[600px] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-border mt-8 relative z-0">
             <MapContainer
                 center={center}
                 zoom={6}
@@ -70,22 +70,22 @@ export default function WeatherMap({ lat, lon, city, temp, layer = 'temp_new', i
                 </Marker>
             </MapContainer>
 
-            <div className="absolute bottom-6 left-6 right-6 p-4 bg-card/80 backdrop-blur-md rounded-2xl border border-white/10 flex items-center justify-between z-[1000]">
-                <div className="flex items-center gap-6">
+            <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 p-4 bg-card/80 backdrop-blur-md rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 z-[1000]">
+                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                        <span className="text-xs text-muted font-bold">Cold (-10°C)</span>
+                        <span className="text-[10px] md:text-xs text-muted font-bold">Cold (-10°C)</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                        <span className="text-xs text-muted font-bold">Warm (20°C)</span>
+                        <span className="text-[10px] md:text-xs text-muted font-bold">Warm (20°C)</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-red-500 rounded-full" />
-                        <span className="text-xs text-muted font-bold">Hot (40°C)</span>
+                        <span className="text-[10px] md:text-xs text-muted font-bold">Hot (40°C)</span>
                     </div>
                 </div>
-                <p className="text-[10px] text-muted uppercase font-black tracking-widest">Global Heat Visualization</p>
+                <p className="text-[8px] md:text-[10px] text-muted uppercase font-black tracking-widest hidden sm:block">Global Heat Visualization</p>
             </div>
         </div>
     )

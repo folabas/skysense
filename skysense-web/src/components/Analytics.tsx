@@ -21,23 +21,23 @@ export default function Analytics({ isDarkMode = true }: AnalyticsProps) {
     ]
 
     return (
-        <div className="flex-1 ml-20 lg:ml-24 p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
+        <div className="p-4 md:p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
             <header className="mb-10">
-                <h1 className="text-4xl font-black mb-2">Weather Analytics</h1>
-                <p className="text-muted">Deep dive into atmospheric patterns and historical trends.</p>
+                <h1 className="text-3xl md:text-4xl font-black mb-2">Weather Analytics</h1>
+                <p className="text-muted text-sm md:text-base">Deep dive into atmospheric patterns and historical trends.</p>
             </header>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 mb-8">
                 {dataPatterns.map((item) => (
-                    <div key={item.name} className="glass-card rounded-[2.5rem] p-8 group hover:scale-[1.02] transition-all">
+                    <div key={item.name} className="glass-card rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-8 group hover:scale-[1.02] transition-all">
                         <div className="flex justify-between items-start mb-6">
-                            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-primary">
-                                <item.icon size={24} style={{ color: item.color }} />
+                            <div className="p-3 md:p-4 rounded-2xl bg-white/5 border border-white/10 text-primary">
+                                <item.icon size={22} style={{ color: item.color }} />
                             </div>
                             <span className="text-[10px] uppercase font-black tracking-widest text-muted">Real-time Data</span>
                         </div>
-                        <h3 className="text-4xl font-black mb-2">{item.value}{item.name === 'Wind' ? ' km/h' : item.name === 'Humidity' ? '%' : ''}</h3>
-                        <p className="text-muted font-bold text-sm">{item.name} Intensity</p>
+                        <h3 className="text-3xl md:text-4xl font-black mb-2">{item.value}{item.name === 'Wind' ? ' km/h' : item.name === 'Humidity' ? '%' : ''}</h3>
+                        <p className="text-muted font-bold text-xs md:text-sm">{item.name} Intensity</p>
                     </div>
                 ))}
             </div>

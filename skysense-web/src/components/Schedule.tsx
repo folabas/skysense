@@ -18,10 +18,10 @@ export default function Schedule() {
     ]
 
     return (
-        <div className="flex-1 ml-20 lg:ml-24 p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
+        <div className="p-4 md:p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
             <header className="mb-10">
-                <h1 className="text-4xl font-black mb-2">Smart Scheduler</h1>
-                <p className="text-muted">Personalized activity planning based on the upcoming weather forecast.</p>
+                <h1 className="text-3xl md:text-4xl font-black mb-2">Smart Scheduler</h1>
+                <p className="text-muted text-sm md:text-base">Personalized activity planning based on the upcoming weather forecast.</p>
             </header>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">

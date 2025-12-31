@@ -32,14 +32,16 @@ export default function Home() {
   }
 
   return (
-    <div className="flex bg-background min-h-screen font-sans selection:bg-primary/30 text-foreground transition-colors duration-500">
+    <div className="flex bg-background min-h-screen font-sans selection:bg-primary/30 text-foreground transition-colors duration-500 overflow-x-hidden">
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
       />
-      {renderContent()}
+      <div className="flex-1 w-full md:ml-20 lg:ml-24 transition-all duration-500 pb-24 md:pb-0">
+        {renderContent()}
+      </div>
     </div>
   );
 }

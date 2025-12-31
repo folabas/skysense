@@ -47,35 +47,35 @@ export default function Settings({ isDarkMode, setIsDarkMode }: SettingsProps) {
     }
 
     return (
-        <div className="flex-1 ml-20 lg:ml-24 p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
+        <div className="p-4 md:p-8 text-foreground min-h-screen animate-in fade-in duration-700 transition-colors duration-500">
             <header className="mb-10">
-                <h1 className="text-4xl font-black mb-2 text-foreground">System Settings</h1>
-                <p className="text-muted">Customize your SkySense experience and manage configurations.</p>
+                <h1 className="text-3xl md:text-4xl font-black mb-2 text-foreground">System Settings</h1>
+                <p className="text-muted text-sm md:text-base">Customize your SkySense experience and manage configurations.</p>
             </header>
 
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
                 {/* Sidebar Navigation */}
-                <div className="xl:col-span-4 space-y-3">
+                <div className="xl:col-span-4 flex flex-row xl:flex-col gap-3 overflow-x-auto no-scrollbar pb-2 xl:pb-0">
                     {sections.map((s) => (
                         <button
                             key={s.name}
                             onClick={() => setActiveSection(s.name)}
                             className={cn(
-                                "w-full flex items-center gap-4 p-6 rounded-3xl border transition-all text-left group",
+                                "flex-1 xl:flex-none flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-2xl md:rounded-3xl border transition-all text-left whitespace-nowrap",
                                 activeSection === s.name
-                                    ? "bg-primary/20 border-primary/30 text-white shadow-[0_8px_20px_rgba(138,79,255,0.1)]"
-                                    : "bg-card border-border text-muted hover:border-white/20 hover:text-foreground"
+                                    ? "bg-primary/20 border-primary/30 text-white shadow-lg"
+                                    : "bg-card border-border text-muted hover:text-foreground"
                             )}
                         >
                             <div className={cn(
-                                "p-3 rounded-2xl transition-colors",
-                                activeSection === s.name ? "bg-primary text-white" : "bg-secondary text-muted group-hover:bg-secondary/70"
+                                "p-2 md:p-3 rounded-xl md:rounded-2xl transition-colors",
+                                activeSection === s.name ? "bg-primary text-white" : "bg-secondary text-muted"
                             )}>
                                 <s.icon size={20} />
                             </div>
-                            <div>
-                                <h4 className="font-bold text-foreground">{s.name}</h4>
-                                <p className="text-[10px] uppercase font-black tracking-widest opacity-60">Configuration</p>
+                            <div className="hidden sm:block">
+                                <h4 className="font-bold text-sm md:text-base text-foreground">{s.name}</h4>
+                                <p className="text-[8px] md:text-[10px] uppercase font-black tracking-widest opacity-60">Config</p>
                             </div>
                         </button>
                     ))}

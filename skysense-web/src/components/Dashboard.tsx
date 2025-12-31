@@ -81,9 +81,9 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
     }
 
     return (
-        <main className="flex-1 ml-20 lg:ml-24 p-8 text-foreground min-h-screen">
+        <main className="p-4 md:p-8 text-foreground min-h-screen">
             {/* Header */}
-            <header className="flex justify-between items-center mb-10">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
                 <form onSubmit={handleSearch} className="relative w-full max-w-md">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
                     <input
@@ -97,16 +97,15 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
 
                 <div className="flex items-center gap-4">
                     <div className={cn(
-                        "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border",
+                        "hidden sm:block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border",
                         isLive ? "bg-green-500/10 text-green-500 border-green-500/30" : "bg-yellow-500/10 text-yellow-500 border-yellow-500/30"
                     )}>
-                        {isLive ? 'Live OpenWeather' : 'Simulated Data'}
+                        {isLive ? 'Live' : 'Simulated'}
                     </div>
-                    <div className="flex items-center gap-4 bg-card px-4 py-2 rounded-2xl border border-border">
-                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                            <User size={20} className="text-primary" />
+                    <div className="flex items-center gap-3 md:gap-4 bg-card px-2 md:px-4 py-2 rounded-2xl border border-border">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                            <User size={18} className="text-primary" />
                         </div>
-                        <span className="font-medium">User Name</span>
                     </div>
                 </div>
             </header>
@@ -117,44 +116,44 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Main Weather Card */}
-                        <div className="glass-card rounded-[2.5rem] p-8 flex flex-col relative overflow-hidden group">
+                        <div className="glass-card rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 flex flex-col relative overflow-hidden group min-h-[350px]">
                             <div className="flex justify-between items-center mb-8 relative z-10">
-                                <div className="flex items-center gap-2 bg-primary/20 px-4 py-2 rounded-full border border-primary/30">
-                                    <MapPin size={16} className="text-primary" />
-                                    <span className="text-sm font-semibold">{data.city}</span>
+                                <div className="flex items-center gap-2 bg-primary/20 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-primary/30">
+                                    <MapPin size={14} className="text-primary" />
+                                    <span className="text-xs md:text-sm font-semibold">{data.city}</span>
                                 </div>
                                 <div className="flex items-center bg-secondary p-1 rounded-full border border-border">
                                     <button
                                         onClick={() => setUnit('F')}
-                                        className={cn("px-4 py-1.5 rounded-full text-xs font-bold transition-all", unit === 'F' ? "bg-white text-black" : "text-muted")}
+                                        className={cn("px-3 md:px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all", unit === 'F' ? "bg-white text-black" : "text-muted")}
                                     >F</button>
                                     <button
                                         onClick={() => setUnit('C')}
-                                        className={cn("px-4 py-1.5 rounded-full text-xs font-bold transition-all", unit === 'C' ? "bg-white text-black" : "text-muted")}
+                                        className={cn("px-3 md:px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all", unit === 'C' ? "bg-white text-black" : "text-muted")}
                                     >C</button>
                                 </div>
                             </div>
 
                             <div className="flex-1 flex flex-col justify-center relative z-10">
-                                <h2 className="text-2xl font-bold mb-1 opacity-80">{data.date.split(',')[0]}</h2>
-                                <p className="text-sm text-muted mb-8">{data.date.split(',').slice(1).join(',')}</p>
-                                <div className="flex items-center gap-4 mb-4">
-                                    <h1 className="text-8xl font-black tracking-tight">{convertTemp(data.temp)}°{unit}</h1>
+                                <h2 className="text-xl md:text-2xl font-bold mb-1 opacity-80">{data.date.split(',')[0]}</h2>
+                                <p className="text-xs md:text-sm text-muted mb-6 md:mb-8">{data.date.split(',').slice(1).join(',')}</p>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <h1 className="text-6xl md:text-8xl font-black tracking-tight">{convertTemp(data.temp)}°{unit}</h1>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <span className="text-muted text-sm">High: <b className="text-foreground">{convertTemp(data.high)}°</b></span>
-                                    <span className="text-muted text-sm">Low: <b className="text-foreground">{convertTemp(data.low)}°</b></span>
+                                    <span className="text-muted text-xs md:text-sm">High: <b className="text-foreground">{convertTemp(data.high)}°</b></span>
+                                    <span className="text-muted text-xs md:text-sm">Low: <b className="text-foreground">{convertTemp(data.low)}°</b></span>
                                 </div>
                             </div>
 
-                            <div className="absolute right-8 bottom-8 text-right relative z-10">
+                            <div className="absolute right-4 md:right-8 bottom-4 md:bottom-8 text-right relative z-10">
                                 <img
                                     src={`https://openweathermap.org/img/wn/${data.icon}@4x.png`}
                                     alt={data.condition}
-                                    className="w-32 h-32 mb-2 drop-shadow-2xl animate-pulse"
+                                    className="w-24 h-24 md:w-32 md:h-32 mb-2 drop-shadow-2xl animate-pulse"
                                 />
-                                <h3 className="text-3xl font-bold">{data.condition}</h3>
-                                <p className="text-muted">Feels Like {convertTemp(data.feelsLike)}°{unit}</p>
+                                <h3 className="text-2xl md:text-3xl font-bold">{data.condition}</h3>
+                                <p className="text-xs md:text-sm text-muted">Feels Like {convertTemp(data.feelsLike)}°{unit}</p>
                             </div>
 
                             {/* Background Glow */}
@@ -169,14 +168,14 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
                                 { label: 'Wind Status', value: `${data.windSpeed} km/h`, icon: Wind, color: 'text-cyan-400', status: getWindStatus(data.windSpeed) },
                                 { label: 'Humidity', value: `${data.humidity}%`, icon: Droplets, color: 'text-blue-500', status: data.humidity > 60 ? 'High' : 'Normal' },
                             ].map((item, idx) => (
-                                <div key={idx} className="glass-card rounded-3xl p-6 flex flex-col justify-between hover:scale-[1.02] transition-transform">
+                                <div key={idx} className="glass-card rounded-2xl md:rounded-3xl p-4 md:p-6 flex flex-col justify-between hover:scale-[1.02] transition-transform">
                                     <div className="flex justify-between items-start">
-                                        <span className="text-xs text-muted font-bold uppercase tracking-wider">{item.label}</span>
-                                        <item.icon size={20} className={item.color} />
+                                        <span className="text-[10px] md:text-xs text-muted font-bold uppercase tracking-wider">{item.label}</span>
+                                        <item.icon size={18} className={item.color} />
                                     </div>
                                     <div className="mt-4">
-                                        <div className="text-2xl font-black mb-1 text-foreground">{item.value}</div>
-                                        <div className="text-[10px] font-bold text-muted uppercase tracking-widest">{item.status}</div>
+                                        <div className="text-xl md:text-2xl font-black mb-1 text-foreground">{item.value}</div>
+                                        <div className="text-[8px] md:text-[10px] font-bold text-muted uppercase tracking-widest">{item.status}</div>
                                     </div>
                                 </div>
                             ))}
