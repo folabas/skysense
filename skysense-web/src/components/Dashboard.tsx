@@ -19,6 +19,7 @@ interface DashboardProps {
 export default function Dashboard({ isDarkMode = true }: DashboardProps) {
     const { data, loading, setCity, isLive } = useWeather()
     const [searchValue, setSearchValue] = React.useState('')
+    const searchInputRef = React.useRef<HTMLInputElement>(null)
     const [suggestions, setSuggestions] = React.useState<any[]>([])
     const [showSuggestions, setShowSuggestions] = React.useState(false)
     const [isSearching, setIsSearching] = React.useState(false)
@@ -101,6 +102,7 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
         if (searchValue.trim()) {
             setCity(searchValue.trim())
             setShowSuggestions(false)
+            searchInputRef.current?.blur()
         }
     }
 
@@ -108,6 +110,7 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
         setSearchValue(`${city.name}, ${city.country}`)
         setCity(city.name)
         setShowSuggestions(false)
+        searchInputRef.current?.blur()
     }
 
     if (loading || !data) {
@@ -126,6 +129,7 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
                     <form onSubmit={handleSearch} className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
                         <input
+                            ref={searchInputRef}
                             type="text"
                             placeholder="Search City...."
                             value={searchValue}
