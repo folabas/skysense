@@ -25,8 +25,8 @@ export default function Sidebar({ activeTab, setActiveTab, isDarkMode, setIsDark
             {/* Desktop Sidebar */}
             <aside className="hidden md:flex w-20 lg:w-24 h-screen fixed left-0 top-0 bg-card border-r border-border flex-col items-center py-8 z-50 transition-colors duration-500">
                 <div className="mb-12">
-                    <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary shadow-lg shadow-primary/10">
-                        <Cloud size={28} />
+                    <div className="w-14 h-14 bg-primary/20 rounded-2xl flex items-center justify-center p-2 shadow-lg shadow-primary/10 hover:scale-110 transition-transform cursor-pointer">
+                        <img src="/logo.png" alt="SkySense Logo" className="w-full h-full object-contain" />
                     </div>
                 </div>
 

@@ -125,42 +125,47 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
         <main className="p-4 md:p-8 text-foreground min-h-screen">
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-                <div className="relative w-full max-w-md">
-                    <form onSubmit={handleSearch} className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
-                        <input
-                            ref={searchInputRef}
-                            type="text"
-                            placeholder="Search City...."
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true) }}
-                            className="w-full bg-card/50 border border-border rounded-2xl py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
-                        />
-                        {isSearching && (
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                <Loader2 className="animate-spin text-primary" size={20} />
+                <div className="flex items-center gap-4 w-full max-w-md">
+                    <div className="md:hidden w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center p-1.5 shrink-0">
+                        <img src="/logo.png" alt="SkySense Logo" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="relative flex-1">
+                        <form onSubmit={handleSearch} className="relative">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
+                            <input
+                                ref={searchInputRef}
+                                type="text"
+                                placeholder="Search City...."
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true) }}
+                                className="w-full bg-card/50 border border-border rounded-2xl py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+                            />
+                            {isSearching && (
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <Loader2 className="animate-spin text-primary" size={20} />
+                                </div>
+                            )}
+                        </form>
+
+                        {showSuggestions && suggestions.length > 0 && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-2xl overflow-hidden z-[100] shadow-2xl glass-card backdrop-blur-2xl">
+                                {suggestions.map((city, i) => (
+                                    <button
+                                        key={`${city.lat}-${city.lon}-${i}`}
+                                        onClick={() => selectCity(city)}
+                                        className="w-full px-6 py-4 flex items-center gap-3 hover:bg-primary/10 transition-colors text-left border-b border-white/5 last:border-0"
+                                    >
+                                        <MapPin size={16} className="text-primary" />
+                                        <div>
+                                            <p className="font-bold text-sm">{city.name}, {city.country}</p>
+                                            {city.state && <p className="text-[10px] text-muted opacity-60 uppercase font-black">{city.state}</p>}
+                                        </div>
+                                    </button>
+                                ))}
                             </div>
                         )}
-                    </form>
-
-                    {showSuggestions && suggestions.length > 0 && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-2xl overflow-hidden z-[100] shadow-2xl glass-card backdrop-blur-2xl">
-                            {suggestions.map((city, i) => (
-                                <button
-                                    key={`${city.lat}-${city.lon}-${i}`}
-                                    onClick={() => selectCity(city)}
-                                    className="w-full px-6 py-4 flex items-center gap-3 hover:bg-primary/10 transition-colors text-left border-b border-white/5 last:border-0"
-                                >
-                                    <MapPin size={16} className="text-primary" />
-                                    <div>
-                                        <p className="font-bold text-sm">{city.name}, {city.country}</p>
-                                        {city.state && <p className="text-[10px] text-muted opacity-60 uppercase font-black">{city.state}</p>}
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-4">
