@@ -85,6 +85,26 @@ app.get('/api/weather-data', async (req, res) => {
     }
 });
 
+app.get('/api/search-cities', async (req, res) => {
+    const { q } = req.query;
+    if (!q || q.length < 3) return res.json([]);
+
+    try {
+        const response = await axios.get(GEO_URL, {
+            params: { q, limit: 5, appid: OWM_API_KEY }
+        });
+        res.json(response.data.map(item => ({
+            name: item.name,
+            country: item.country,
+            state: item.state,
+            lat: item.lat,
+            lon: item.lon
+        })));
+    } catch (error) {
+        res.json([]);
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`SkySense Server running on http://localhost:${PORT}`);
 });

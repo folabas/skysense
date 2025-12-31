@@ -61,11 +61,14 @@ export default function Schedule() {
 
                 {/* Best Times Hook */}
                 <div className="glass-card rounded-[2.5rem] p-8 flex flex-col">
-                    <div className="flex items-center gap-4 mb-8">
+                    <div className="flex items-center gap-4">
                         <div className="p-3 bg-blue-500/20 rounded-2xl text-blue-400">
                             <Clock size={24} />
                         </div>
-                        <h3 className="text-xl font-bold">Hourly Recommendations</h3>
+                        <div>
+                            <h3 className="text-xl font-bold">Hourly Recommendations</h3>
+                            <p className="text-[10px] text-primary font-black uppercase tracking-widest">Live API Feed</p>
+                        </div>
                     </div>
 
                     <div className="flex-1 space-y-3">

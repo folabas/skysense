@@ -19,11 +19,12 @@ interface WeatherMapProps {
     lon: number;
     city: string;
     temp: number;
+    zoom?: number;
     layer?: string;
     isDarkMode?: boolean;
 }
 
-export default function WeatherMap({ lat, lon, city, temp, layer = 'temp_new', isDarkMode = true }: WeatherMapProps) {
+export default function WeatherMap({ lat, lon, city, temp, zoom = 6, layer = 'temp_new', isDarkMode = true }: WeatherMapProps) {
     const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
@@ -46,13 +47,14 @@ export default function WeatherMap({ lat, lon, city, temp, layer = 'temp_new', i
         <div className="w-full h-[400px] md:h-[600px] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-border mt-8 relative z-0">
             <MapContainer
                 center={center}
-                zoom={6}
+                zoom={zoom}
                 style={{ height: '100%', width: '100%' }}
                 scrollWheelZoom={true}
                 touchZoom={true}
                 dragging={true}
+                worldCopyJump={true}
             >
-                <MapView center={center} zoom={6} />
+                <MapView center={center} zoom={zoom} />
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
                     url={isDarkMode ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}

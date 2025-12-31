@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Search, MapPin, Wind, Droplets, Sun, CloudRain, Thermometer, ArrowUp, ArrowDown, User } from 'lucide-react'
+import { Search, MapPin, Wind, Droplets, Sun, CloudRain, Thermometer, ArrowUp, ArrowDown, User, Loader2 } from 'lucide-react'
 import { useWeather } from '@/hooks/useWeather'
 import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
@@ -19,10 +19,41 @@ interface DashboardProps {
 export default function Dashboard({ isDarkMode = true }: DashboardProps) {
     const { data, loading, setCity, isLive } = useWeather()
     const [searchValue, setSearchValue] = React.useState('')
+    const [suggestions, setSuggestions] = React.useState<any[]>([])
+    const [showSuggestions, setShowSuggestions] = React.useState(false)
+    const [isSearching, setIsSearching] = React.useState(false)
     const [unit, setUnit] = React.useState<'C' | 'F'>('C')
     const [hourlyView, setHourlyView] = React.useState<'forecast' | 'trends'>('forecast')
     const [mapLayer, setMapLayer] = React.useState<'temp_new' | 'precipitation_new' | 'wind_new'>('temp_new')
     const [trendType, setTrendType] = React.useState<'temp' | 'precipitation' | 'windSpeed'>('temp')
+
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api';
+
+    // Fetch suggestions when searchValue changes
+    React.useEffect(() => {
+        const fetchSuggestions = async () => {
+            if (searchValue.trim().length >= 3) {
+                setIsSearching(true);
+                try {
+                    const res = await fetch(`${API_BASE}/search-cities?q=${searchValue}`);
+                    const results = await res.json();
+                    setSuggestions(results);
+                    setShowSuggestions(true);
+                } catch (e) {
+                    setSuggestions([]);
+                } finally {
+                    setIsSearching(false);
+                }
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
+                setIsSearching(false);
+            }
+        };
+
+        const timeoutId = setTimeout(fetchSuggestions, 300);
+        return () => clearTimeout(timeoutId);
+    }, [searchValue, API_BASE]);
 
     const getUVStatus = (uv: number) => {
         if (uv <= 2) return 'Low';
@@ -69,7 +100,14 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
         e.preventDefault()
         if (searchValue.trim()) {
             setCity(searchValue.trim())
+            setShowSuggestions(false)
         }
+    }
+
+    const selectCity = (city: any) => {
+        setSearchValue(`${city.name}, ${city.country}`)
+        setCity(city.name)
+        setShowSuggestions(false)
     }
 
     if (loading || !data) {
@@ -84,16 +122,42 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
         <main className="p-4 md:p-8 text-foreground min-h-screen">
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-                <form onSubmit={handleSearch} className="relative w-full max-w-md">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Search City...."
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        className="w-full bg-card/50 border border-border rounded-2xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
-                    />
-                </form>
+                <div className="relative w-full max-w-md">
+                    <form onSubmit={handleSearch} className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
+                        <input
+                            type="text"
+                            placeholder="Search City...."
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true) }}
+                            className="w-full bg-card/50 border border-border rounded-2xl py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+                        />
+                        {isSearching && (
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                <Loader2 className="animate-spin text-primary" size={20} />
+                            </div>
+                        )}
+                    </form>
+
+                    {showSuggestions && suggestions.length > 0 && (
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-2xl overflow-hidden z-[100] shadow-2xl glass-card backdrop-blur-2xl">
+                            {suggestions.map((city, i) => (
+                                <button
+                                    key={`${city.lat}-${city.lon}-${i}`}
+                                    onClick={() => selectCity(city)}
+                                    className="w-full px-6 py-4 flex items-center gap-3 hover:bg-primary/10 transition-colors text-left border-b border-white/5 last:border-0"
+                                >
+                                    <MapPin size={16} className="text-primary" />
+                                    <div>
+                                        <p className="font-bold text-sm">{city.name}, {city.country}</p>
+                                        {city.state && <p className="text-[10px] text-muted opacity-60 uppercase font-black">{city.state}</p>}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
                 <div className="flex items-center gap-4">
                     <div className={cn(
@@ -418,7 +482,7 @@ export default function Dashboard({ isDarkMode = true }: DashboardProps) {
                         >Wind Speed</button>
                     </div>
                 </div>
-                <WeatherMap lat={data.lat} lon={data.lon} city={data.city} temp={convertTemp(data.temp)} layer={mapLayer} isDarkMode={isDarkMode} />
+                <WeatherMap lat={data.lat} lon={data.lon} city={data.city} temp={convertTemp(data.temp)} zoom={3} layer={mapLayer} isDarkMode={isDarkMode} />
             </div>
         </main>
     )

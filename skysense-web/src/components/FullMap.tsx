@@ -57,6 +57,7 @@ export default function FullMap({ isDarkMode = true }: FullMapProps) {
                     lon={data.lon}
                     city={data.city}
                     temp={data.temp}
+                    zoom={3}
                     layer={layer}
                     isDarkMode={isDarkMode}
                 />
